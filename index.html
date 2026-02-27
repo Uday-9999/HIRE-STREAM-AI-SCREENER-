@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hire-Stream – AI Recruitment Pipeline</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ───────── SIDEBAR ───────── -->
+<aside class="sidebar">
+  <div class="logo">Hire<span>Stream</span></div>
+  <nav class="nav">
+    <div class="nav-section">Overview</div>
+    <button class="nav-item active" onclick="showView('dashboard',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <div class="nav-section">Recruiting</div>
+    <button class="nav-item" onclick="showView('jobs',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Job Postings
+    </button>
+    <button class="nav-item" onclick="showView('candidates',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      Candidates
+    </button>
+    <button class="nav-item" onclick="showView('pipeline',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="6" width="4" height="14" rx="1"/></svg>
+      Pipeline
+    </button>
+    <button class="nav-item" onclick="showView('ai',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 0 6h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1 0-6h1V6a4 4 0 0 1 4-4z"/></svg>
+      AI Screener
+    </button>
+    <div class="nav-section">Settings</div>
+    <button class="nav-item" onclick="showView('settings',this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+      Settings
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-chip">
+      <div class="avatar">SR</div>
+      <div>
+        <div class="name">Sarah Recruiter</div>
+        <div class="role">HR Manager</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ───────── MAIN ───────── -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">Dashboard</div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" onclick="openModal('email-modal')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Send Email
+      </button>
+      <button class="btn btn-primary" onclick="openModal('job-modal')">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Post Job
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD VIEW ── -->
+    <div class="view active" id="view-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-label">Total Applications</div>
+          <div class="stat-value" id="s-total">247</div>
+          <div class="stat-delta">↑ 18% this week</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Hired This Month</div>
+          <div class="stat-value">12</div>
+          <div class="stat-delta">↑ 4 vs last month</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-label">In Interview</div>
+          <div class="stat-value" id="s-interview">34</div>
+          <div class="stat-delta">Across 8 roles</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-label">Open Positions</div>
+          <div class="stat-value" id="s-jobs">6</div>
+          <div class="stat-delta">2 urgent</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Recent Applications</div>
+        <button class="btn btn-ghost" style="font-size:12px">View all</button>
+      </div>
+      <div class="table-wrap" style="margin-bottom:28px">
+        <table>
+          <thead><tr>
+            <th>Candidate</th><th>Applied For</th><th>AI Score</th><th>Status</th><th>Applied</th>
+          </tr></thead>
+          <tbody id="recent-table"></tbody>
+        </table>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Pipeline Overview</div>
+      </div>
+      <div class="kanban" id="mini-kanban"></div>
+    </div>
+
+    <!-- ── JOBS VIEW ── -->
+    <div class="view" id="view-jobs">
+      <div class="section-header" style="margin-bottom:20px">
+        <div class="section-title">Active Job Postings</div>
+        <button class="btn btn-primary" onclick="openModal('job-modal')">+ New Job</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Title</th><th>Department</th><th>Applications</th><th>Status</th><th>Posted</th><th>Actions</th></tr></thead>
+          <tbody id="jobs-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── CANDIDATES VIEW ── -->
+    <div class="view" id="view-candidates">
+      <div class="section-header" style="margin-bottom:20px">
+        <div class="section-title">All Candidates</div>
+        <input class="form-input" style="width:220px;padding:8px 12px" placeholder="Search candidates…" oninput="filterCandidates(this.value)"/>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Role</th><th>AI Score</th><th>Stage</th><th>Email</th><th>Actions</th></tr></thead>
+          <tbody id="candidates-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── PIPELINE VIEW ── -->
+    <div class="view" id="view-pipeline">
+      <div class="section-header" style="margin-bottom:20px">
+        <div class="section-title">Recruitment Kanban</div>
+        <span style="font-size:13px;color:var(--muted)">Drag & drop candidates between stages</span>
+      </div>
+      <div class="kanban" id="main-kanban"></div>
+    </div>
+
+    <!-- ── AI SCREENER VIEW ── -->
+    <div class="view" id="view-ai">
+      <div class="section-header" style="margin-bottom:20px">
+        <div class="section-title">AI Resume Screener</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Select Job Posting</label>
+            <select class="form-select" id="ai-job-select">
+              <option>Senior Frontend Engineer</option>
+              <option>Product Designer</option>
+              <option>Backend Node.js Developer</option>
+              <option>Data Analyst</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Required Keywords</label>
+            <input class="form-input" id="ai-keywords" value="React, TypeScript, Node.js, REST API, Git"/>
+          </div>
+          <div class="upload-zone" onclick="document.getElementById('file-input').click()" id="drop-zone">
+            <div class="upload-icon">
+              <svg width="22" height="22" fill="none" stroke="var(--accent)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div class="upload-title">Upload Resume</div>
+            <div class="upload-sub">Drag & drop a PDF or click to browse</div>
+          </div>
+          <input type="file" id="file-input" accept=".pdf,.doc,.docx" onchange="analyzeResume(this)"/>
+          <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="runAiDemo()">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run AI Analysis
+          </button>
+        </div>
+        <div class="ai-panel" id="ai-result-panel">
+          <div class="ai-header">
+            <div class="ai-dot"></div>
+            <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:15px">AI Analysis</span>
+            <span id="ai-overall" style="margin-left:auto;font-size:18px;font-weight:700;color:var(--accent2)"></span>
+          </div>
+          <div class="ai-body" id="ai-body">
+            <div style="color:var(--muted);font-size:14px;text-align:center;padding:20px 0">Upload a resume and click Run AI Analysis to see results.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Screened Candidates</div>
+      </div>
+      <div class="candidate-list" id="screened-list"></div>
+    </div>
+
+    <!-- ── SETTINGS VIEW ── -->
+    <div class="view" id="view-settings">
+      <div style="max-width:560px">
+        <div class="section-title" style="margin-bottom:20px">Account Settings</div>
+        <div class="ai-panel">
+          <div class="ai-header"><span style="font-weight:600">Email Notifications</span></div>
+          <div class="ai-body" style="display:flex;flex-direction:column;gap:16px">
+            <label style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+              <span style="font-size:14px">New application received</span>
+              <input type="checkbox" checked style="accent-color:var(--accent);width:16px;height:16px"/>
+            </label>
+            <label style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+              <span style="font-size:14px">AI score below threshold</span>
+              <input type="checkbox" checked style="accent-color:var(--accent);width:16px;height:16px"/>
+            </label>
+            <label style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+              <span style="font-size:14px">Stage change in pipeline</span>
+              <input type="checkbox" style="accent-color:var(--accent);width:16px;height:16px"/>
+            </label>
+            <label style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+              <span style="font-size:14px">Weekly digest report</span>
+              <input type="checkbox" checked style="accent-color:var(--accent);width:16px;height:16px"/>
+            </label>
+          </div>
+        </div>
+        <div style="margin-top:16px" class="ai-panel">
+          <div class="ai-header"><span style="font-weight:600">AI Scoring Threshold</span></div>
+          <div class="ai-body">
+            <label class="form-label">Minimum score to auto-advance to reviewing</label>
+            <input type="range" min="50" max="95" value="70" style="width:100%;accent-color:var(--accent)" oninput="document.getElementById('threshold-val').textContent=this.value+'%'"/>
+            <div style="font-size:14px;margin-top:6px;color:var(--accent2)">Threshold: <b id="threshold-val">70%</b></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:16px" onclick="notify('Settings saved!')">Save Changes</button>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- ───────── MODALS ───────── -->
+<!-- Post Job Modal -->
+<div class="modal-overlay" id="job-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Post New Job</div>
+      <button class="modal-close" onclick="closeModal('job-modal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Job Title</label>
+      <input class="form-input" id="new-job-title" placeholder="e.g. Senior React Developer"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Department</label>
+      <select class="form-select" id="new-job-dept">
+        <option>Engineering</option><option>Design</option><option>Marketing</option><option>Sales</option><option>Data</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Job Description</label>
+      <textarea class="form-textarea" placeholder="Describe the role, responsibilities and requirements…"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Required Keywords (comma separated)</label>
+      <input class="form-input" placeholder="React, TypeScript, Node.js…"/>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeModal('job-modal')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="addJob()">Post Job</button>
+    </div>
+  </div>
+</div>
+
+<!-- Email Modal -->
+<div class="modal-overlay" id="email-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Send Email</div>
+      <button class="modal-close" onclick="closeModal('email-modal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Template</label>
+      <select class="form-select" onchange="loadTemplate(this.value)">
+        <option value="">— Select template —</option>
+        <option value="thank">Thank You</option>
+        <option value="interview">Interview Invite</option>
+        <option value="reject">Rejection</option>
+        <option value="offer">Offer Letter</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">To</label>
+      <input class="form-input" id="email-to" placeholder="candidate@email.com"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Subject</label>
+      <input class="form-input" id="email-subject" placeholder="Subject line…"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" id="email-body" style="min-height:140px" placeholder="Email content…"></textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeModal('email-modal')">Cancel</button>
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="sendEmail()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send Email
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Candidate Detail Modal -->
+<div class="modal-overlay" id="candidate-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="cand-modal-name">Candidate</div>
+      <button class="modal-close" onclick="closeModal('candidate-modal')">✕</button>
+    </div>
+    <div id="cand-modal-body"></div>
+  </div>
+</div>
+
+<!-- ───────── SCRIPT ───────── -->
+<script defer src="js/data.js"></script>
+<script defer src="js/help.js"></script>
+
+<script defer src="js/dashboard.js"></script>
+<script defer src="js/jobs.js"></script>
+<script defer src="js/candidates.js"></script>
+<script defer src="js/pipeline.js"></script>
+
+<script defer src="js/model.js"></script>
+<script defer src="js/email.js"></script>
+<script defer src="js/ai.js"></script>
+<script defer src="js/notify.js"></script>
+
+<script defer src="js/view.js"></script>
+<script defer src="js/app.js"></script>
+</body>
+</html>
